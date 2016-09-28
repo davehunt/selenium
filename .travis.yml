@@ -7,23 +7,9 @@ env:
   global:
     - DISPLAY=:99.0
   matrix:
-    - TASK=build
-    - TASK=rb TARGET=unit-test
-    - TASK=rb TARGET=chrome-test
     - TASK=rb TARGET=firefox-test
-    - TASK=rb TARGET=phantomjs-test
-    - TASK=py TOXENV=py27-chrome
     - TASK=py TOXENV=py27-firefox
     - TASK=py TOXENV=py27-marionette
-    - TASK=py TOXENV=py27-phantomjs
-matrix:
-  fast_finish: true
-  allow_failures:
-    - env: TASK=rb TARGET=firefox-test
-    - env: TASK=rb TARGET=phantomjs-test
-    - env: TASK=py TOXENV=py27-chrome
-    - env: TASK=py TOXENV=py27-firefox
-    - env: TASK=py TOXENV=py27-marionette
 before_script:
   - sh -e /etc/init.d/xvfb start
 script:
