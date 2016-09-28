@@ -41,6 +41,13 @@ script:
         unzip chromedriver_linux64.zip && chmod +x chromedriver && sudo mv chromedriver /usr/local/bin
       fi
   - |
+      if [[ $TOXENV == *"firefox"* ]]; then
+        apt-get -y purge firefox
+        pip install --user mozdownload mozinstall
+        mozdownload --version 47.0.1 --destination firefox.tar.bz2
+        mozinstall firefox.tar.bz2
+      fi
+  - |
       if [[ $TOXENV == *"marionette"* ]]; then
         export GECKODRIVER_VERSION=v0.10.0
         curl -L -o geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VERSION}/geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz
