@@ -30,16 +30,14 @@ before_script:
 script:
   - |
       if [[ $TARGET+$TOXENV == *"chrome"* ]]; then
+        sudo apt-get -y purge chromium-browser
         export CHROME_REVISION=`curl -s http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/LAST_CHANGE`
         curl -L -O "http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/${CHROME_REVISION}/chrome-linux.zip"
         unzip chrome-linux.zip && sudo ln -sf chrome-linux/chrome /usr/local/bin/chrome
         export CHROMEDRIVER_VERSION=`curl -s http://chromedriver.storage.googleapis.com/LATEST_RELEASE`
         curl -L -O "http://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
         unzip chromedriver_linux64.zip && chmod +x chromedriver && sudo mv chromedriver /usr/local/bin
-        which chrome
-        which google-chrome
-        ls /usr/local/bin
-        ls /usr/bin
+        which chromium-browser
       fi
   - |
       if [[ $TOXENV == *"firefox"* ]]; then
