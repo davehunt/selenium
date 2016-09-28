@@ -31,11 +31,9 @@ script:
   - |
       if [[ $TARGET+$TOXENV == *"chrome"* ]]; then
         sudo apt-get -y purge chromium-browser
-        export CHROME_REVISION=`curl -s http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/LAST_CHANGE`
-        curl -L -O "http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/${CHROME_REVISION}/chrome-linux.zip"
-        unzip chrome-linux.zip
-        export CHROME_BINARY=$PWD/chrome-linux/chrome
-        export PATH=$PATH:$PWD/chrome-linux
+        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+        sudo echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
+        sudo apt-get update -y && sudo apt-get -y install google-chrome-stable
         export CHROMEDRIVER_VERSION=`curl -s http://chromedriver.storage.googleapis.com/LATEST_RELEASE`
         curl -L -O "http://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
         unzip chromedriver_linux64.zip && chmod +x chromedriver && sudo mv chromedriver /usr/local/bin
