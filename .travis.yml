@@ -33,11 +33,11 @@ script:
         sudo apt-get -y purge chromium-browser
         export CHROME_REVISION=`curl -s http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/LAST_CHANGE`
         curl -L -O "http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/${CHROME_REVISION}/chrome-linux.zip"
-        sudo mkdir /opt/google && sudo unzip -d /opt/google chrome-linux.zip && sudo mv /opt/google/chrome-linux /opt/google/chrome
+        unzip chrome-linux.zip
+        export CHROME_BINARY=$PWD/chrome-linux/chrome
         export CHROMEDRIVER_VERSION=`curl -s http://chromedriver.storage.googleapis.com/LATEST_RELEASE`
         curl -L -O "http://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
         unzip chromedriver_linux64.zip && chmod +x chromedriver && sudo mv chromedriver /usr/local/bin
-        which chromium-browser
       fi
   - |
       if [[ $TOXENV == *"firefox"* ]]; then
