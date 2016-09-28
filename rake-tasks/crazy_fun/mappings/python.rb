@@ -66,9 +66,11 @@ module Python
 
       task_name = "#{base_task_name}:run"
       task task_name => deps do
-        tox_args = ['tox', '-r', '-e', 'py27', '--', 'py']
+        python_version = ENV['pyversion'] || "py27"
+        tox_args = ['tox', '-r']
         drivers.each do |driver|
-          tox_args += ["--driver=#{driver}"]
+          tox_args += ['-e', "#{python_version}-#{driver}".downcase]
+        tox_args += ["--"]
         tox_args += ["-k=" + ENV['method']] if ENV['method']
         tox_args += ["--tb=" + ENV['traceback']] if ENV['traceback']
         tox_args += ["--junitxml=build/test_logs/python-#{Time.now.to_i}.xml"]
