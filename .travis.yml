@@ -34,11 +34,11 @@ script:
   - |
       if [[ $TARGET+$TOXENV == *"chrome"* ]]; then
         export CHROME_REVISION=`curl -s http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/LAST_CHANGE`
-        curl -L -o chrome.zip "http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/${CHROME_REVISION}/chrome-linux.zip"
-        unzip chrome.zip
+        curl -L "http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/${CHROME_REVISION}/chrome-linux.zip"
+        unzip chrome-linux.zip && sudo ln -sf chrome-linux/chrome /usr/local/bin/chrome
         export CHROMEDRIVER_VERSION=`curl -s http://chromedriver.storage.googleapis.com/LATEST_RELEASE`
-        curl -L -o chromedriver.zip "http://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
-        unzip chromedriver.zip && chmod +x chromedriver && sudo mv chromedriver /usr/local/bin
+        curl -L "http://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
+        unzip chromedriver_linux64.zip && chmod +x chromedriver && sudo mv chromedriver /usr/local/bin
       fi
   - |
       if [[ $TOXENV == *"marionette"* ]]; then
@@ -47,9 +47,9 @@ script:
         gunzip -c geckodriver.tar.gz | tar xopf -
         chmod +x geckodriver && sudo mv geckodriver /usr/local/bin
         apt-get -y purge firefox
-        wget -O /tmp/firefox.tar.bz2 https://download.mozilla.org/?product=firefox-latest&lang=en-US&os=linux64
-        tar xf /tmp/firefox.tar.bz2
-        sudo ln -sf firefox/firefox /usr/local/bin/firefox
+        pip install --user mozdownload mozinstall
+        mozdownload --version latest --destination firefox.tar.bz2
+        mozinstall firefox.tar.bz2
       fi
   - |
       if [[ $TARGET+$TOXENV == *"phantomjs"* ]]; then
