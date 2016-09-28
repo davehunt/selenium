@@ -34,11 +34,7 @@ script:
         export CHROME_REVISION=`curl -s http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/LAST_CHANGE`
         curl -L -O "http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/${CHROME_REVISION}/chrome-linux.zip"
         unzip chrome-linux.zip
-        ./chrome-linux/chrome --version
-        sudo ln -sf $PWD/chrome-linux/chrome /usr/local/bin/chrome
-        ./chrome --version
         sudo ln -sf $PWD/chrome-linux/chrome-wrapper /usr/local/bin/chrome
-        ./chrome --version
         export CHROMEDRIVER_VERSION=`curl -s http://chromedriver.storage.googleapis.com/LATEST_RELEASE`
         curl -L -O "http://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
         unzip chromedriver_linux64.zip && chmod +x chromedriver && sudo mv chromedriver /usr/local/bin
@@ -68,7 +64,6 @@ script:
         tar -xvjf $PHANTOMJS_NAME.tar.bz2
         chmod +x $PHANTOMJS_NAME/bin/phantomjs
       fi
-  - export
   - |
       if [[ $TASK == "build" ]]; then
         ./go build
